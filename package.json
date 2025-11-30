@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "setup-ios": "rm -rf Pods Podfile.lock && cd ios && pod install && cd..",
+    "pod-install": "cd ios && pod install && cd .."
   },
   "dependencies": {
     "react": "19.1.1",
