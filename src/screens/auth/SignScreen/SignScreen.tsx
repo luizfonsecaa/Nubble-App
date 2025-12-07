@@ -2,11 +2,28 @@ import React from 'react'
 
 import { Text } from '../../../components/Text/Text'
 import { TextInput } from '../../../components/TextInput/TextInput'
-import { Icon } from '../../../components/Icon/Icon'
 import { Button } from '../../../components/Button/Button'
 import { Screen } from '../../../components/Screen/Screen'
 import { PasswordInput } from '../../../components/PasswordInput/PasswordInput'
-export function SignScreen() {
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../../routes/Routes'
+import { useResetNavigationSuccess } from '../../../hooks/useResetNavigationSuccess'
+
+type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>
+
+export function SignScreen({ navigation }: ScreenProps) {
+  const { reset } = useResetNavigationSuccess()
+
+  function submitForm() {
+    reset({
+      title: 'Sua conta foi criada com sucesso!',
+      description: 'Agora é só fazer login na nossa plataforma!',
+      icon: {
+        name: 'checkRound',
+        color: 'success',
+      },
+    })
+  }
   return (
     <Screen canGoBack scrollable>
       <Text mb="s32" preset="headingLarge">
@@ -33,7 +50,7 @@ export function SignScreen() {
         placeholder="Digite sua senha"
         BoxProps={{ mb: 's10' }}
       />
-      <Button mt="s48" title="Criar minha conta" />
+      <Button onPress={submitForm} mt="s48" title="Criar minha conta" />
     </Screen>
   )
 }

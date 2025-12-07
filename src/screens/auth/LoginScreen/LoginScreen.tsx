@@ -3,11 +3,42 @@ import React from 'react'
 import { Text } from '../../../components/Text/Text'
 import { TextInput } from '../../../components/TextInput/TextInput'
 import { Button } from '../../../components/Button/Button'
-import { Icon } from '../../../components/Icon/Icon'
 import { Screen } from '../../../components/Screen/Screen'
 import { PasswordInput } from '../../../components/PasswordInput/PasswordInput'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { RootStackParamList } from '../../../routes/Routes'
+import { Pressable } from 'react-native'
 
-export function LoginScreen() {
+type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>
+
+export function LoginScreen({ navigation }: ScreenProps) {
+  function navigateToSingUpScreen() {
+    navigation.navigate('SignScreen')
+  }
+
+  async function handleLogin() {
+    try {
+      const response = await fetch(
+        'https://jsonplaceholder.typicode.com/users/1',
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error('Erro na requisição')
+      }
+
+      const data = await response.json()
+      console.log('Dados recebidos:', data)
+    } catch (error) {
+      console.error('Erro ao fazer login:', error)
+    }
+  }
+
   return (
     <Screen>
       <Text mb="s8" preset="headingLarge">
@@ -27,11 +58,18 @@ export function LoginScreen() {
         placeholder="Digite sua senha"
         BoxProps={{ mb: 's10' }}
       />
-      <Text color="primary" bold preset="paragraphSmall">
-        Esqueci minha senha
-      </Text>
-      <Button mt="s48" title="Entrar" />
-      <Button mt="s12" preset="outline" title="Criar uma conta" />
+      <Pressable onPress={() => navigation.navigate('ForgotPasswordScreen')}>
+        <Text color="primary" bold preset="paragraphSmall">
+          Esqueci minha senha
+        </Text>
+      </Pressable>
+      <Button mt="s48" title="Entrar" onPress={handleLogin} />
+      <Button
+        mt="s12"
+        onPress={navigateToSingUpScreen}
+        preset="outline"
+        title="Criar uma conta"
+      />
     </Screen>
   )
 }
