@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import {Svg, Path} from 'react-native-svg';
+import {Svg, Path} from 'react-native-svg'
 
-import {IconBase} from '../../components/Icon/Icon';
+import {IconBase} from '../../components/Icon/Icon'
 
 export function BookmarkIcon({size = 20, color = 'black'}: IconBase) {
   return (
@@ -14,5 +14,5 @@ export function BookmarkIcon({size = 20, color = 'black'}: IconBase) {
         fill={color}
       />
     </Svg>
-  );
+  )
 }

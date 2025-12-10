@@ -1,13 +1,15 @@
+import { useRef } from 'react'
 import {
   Pressable,
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
   TextStyle,
 } from 'react-native'
-import { Box, BoxProps } from '../Box/Box'
-import { $fontFamily, $fontSizes, Text } from '../Text/Text'
-import { useAppTheme } from '../../hooks/useAppTheme'
-import { useRef } from 'react'
+
+import { Text, Box, BoxProps } from '@components'
+import { useAppTheme } from '@hooks'
+
+import { $fontFamily, $fontSizes } from '../Text/Text'
 
 export interface TextInputProps extends RNTextInputProps {
   label: string
@@ -19,6 +21,7 @@ export function TextInput({
   label,
   errorMessage,
   rightComponent,
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   BoxProps,
   ...rnTextInputProps
 }: TextInputProps) {

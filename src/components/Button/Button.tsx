@@ -1,7 +1,10 @@
+import { TouchableOpacityBox, TouchableOpacityBoxProps } from '@components'
+import { ActivityIndicator } from '@components'
+
 import { Text } from '../Text/Text'
-import { TouchableOpacityBox, TouchableOpacityBoxProps } from '../Box/Box'
+
 import { buttonPresets } from './ButtonPresets'
-import { ActivityIndicator } from '../ActivityIndicator/ActivityIndicator'
+
 
 export type ButtonPreset = 'primary' | 'outline'
 

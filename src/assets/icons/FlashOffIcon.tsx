@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import {Svg, Path} from 'react-native-svg';
+import {Svg, Path} from 'react-native-svg'
 
-import {IconBase} from '../../components/Icon/Icon';
+import {IconBase} from '../../components/Icon/Icon'
 
 export function FlashOffIcon({size = 20, color = 'black'}: IconBase) {
   return (
@@ -20,5 +20,5 @@ export function FlashOffIcon({size = 20, color = 'black'}: IconBase) {
         d="M1.57926 0.579259C1.89917 0.259343 2.41786 0.259343 2.73777 0.579259L17.9632 15.8047C18.2831 16.1246 18.2831 16.6433 17.9632 16.9632C17.6433 17.2831 17.1246 17.2831 16.8047 16.9632L1.57926 1.73778C1.25934 1.41786 1.25934 0.899175 1.57926 0.579259Z"
       />
     </Svg>
-  );
+  )
 }

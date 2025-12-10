@@ -1,6 +1,8 @@
 import React from 'react'
 import { Pressable } from 'react-native'
 
+import { useTheme } from '@shopify/restyle'
+
 import { ArrowLeftIcon } from '../../assets/icons/ArrowLeftIcon'
 import { ArrowRightIcon } from '../../assets/icons/ArrowRightIcon'
 import { BellIcon } from '../../assets/icons/BellIcon'
@@ -31,7 +33,6 @@ import { SearchIcon } from '../../assets/icons/SearchIcon'
 import { SettingsIcon } from '../../assets/icons/SettingsIcon'
 import { TrashIcon } from '../../assets/icons/TrashIcon'
 import { ThemeColors } from '../../theme/theme'
-import { useTheme } from '@shopify/restyle'
 
 export interface IconBase {
   size?: number
