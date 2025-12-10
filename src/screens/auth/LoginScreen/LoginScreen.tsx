@@ -1,69 +1,72 @@
 import React from 'react'
 
 import { Text } from '../../../components/Text/Text'
-import { TextInput } from '../../../components/TextInput/TextInput'
 import { Button } from '../../../components/Button/Button'
 import { Screen } from '../../../components/Screen/Screen'
-import { PasswordInput } from '../../../components/PasswordInput/PasswordInput'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../../routes/Routes'
 import { Pressable } from 'react-native'
-
+import { useForm } from 'react-hook-form'
+import { FormTextInput } from '../../../components/Form/FormTextInput/FormTextInput'
+import { FormPasswordInput } from '../../../components/Form/FormPasswordInput/FormPasswordInput'
+import { loginSchema, LoginSchema } from './LoginSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
 type ScreenProps = NativeStackScreenProps<RootStackParamList, 'LoginScreen'>
 
 export function LoginScreen({ navigation }: ScreenProps) {
+  const { control, formState, handleSubmit } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  })
+
   function navigateToSingUpScreen() {
-    navigation.navigate('SignScreen')
+    navigation.navigate('SignUpScreen')
   }
 
-  async function handleLogin() {
-    try {
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/users/1',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error('Erro na requisição')
-      }
-
-      const data = await response.json()
-      console.log('Dados recebidos:', data)
-    } catch (error) {
-      console.error('Erro ao fazer login:', error)
-    }
+  function submitForm(formData: LoginSchema) {
+    console.log('Submitting form:', formData)
   }
 
   return (
-    <Screen>
+    <Screen scrollable>
       <Text mb="s8" preset="headingLarge">
         Olá
       </Text>
       <Text mb="s40" preset="paragraphLarge">
         Digite seu e-mail e senha para entrar
       </Text>
-      <TextInput
+
+      <FormTextInput
+        control={control}
+        name="email"
         label="Email"
         placeholder="Digite seu Email"
-        errorMessage="mensagem de erro"
         BoxProps={{ mb: 's20' }}
       />
-      <PasswordInput
+
+      <FormPasswordInput
+        control={control}
+        name="password"
         label="Senha"
         placeholder="Digite sua senha"
         BoxProps={{ mb: 's10' }}
       />
+
       <Pressable onPress={() => navigation.navigate('ForgotPasswordScreen')}>
         <Text color="primary" bold preset="paragraphSmall">
           Esqueci minha senha
         </Text>
       </Pressable>
-      <Button mt="s48" title="Entrar" onPress={handleLogin} />
+      <Button
+        mt="s48"
+        title="Entrar"
+        onPress={handleSubmit(submitForm)}
+        disable={!formState.isValid}
+      />
       <Button
         mt="s12"
         onPress={navigateToSingUpScreen}

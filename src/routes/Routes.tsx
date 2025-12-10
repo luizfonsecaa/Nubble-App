@@ -2,14 +2,14 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { LoginScreen } from '../screens/auth/LoginScreen/LoginScreen'
-import { SignScreen } from '../screens/auth/SignScreen/SignScreen'
 import { SuccessScreen } from '../screens/auth/SuccessScreen/SuccessScreen'
 import { IconProps } from '../components/Icon/Icon'
+import { SignUpScreen } from '../screens/auth/SignUpScreen/SignUpScreen'
 import { ForgotPasswordScreen } from '../screens/auth/ForgotPasswordScreen/ForgotPasswordScreen'
 
 export type RootStackParamList = {
   LoginScreen: undefined
-  SignScreen: undefined
+  SignUpScreen: undefined
   SuccessScreen: {
     title: string
     description: string
@@ -27,7 +27,7 @@ export function Router() {
         initialRouteName="LoginScreen"
       >
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen name="SignScreen" component={SignScreen} />
+        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
         <Stack.Screen name="SuccessScreen" component={SuccessScreen} />
         <Stack.Screen
           name="ForgotPasswordScreen"
