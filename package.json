@@ -10,7 +10,8 @@
     "test": "jest",
     "setup-ios": "rm -rf Pods Podfile.lock && cd ios && pod install && cd..",
     "pod-install": "cd ios && pod install && cd ..",
-    "prepare": "husky"
+    "prepare": "husky",
+    "adblocal": "adb reverse tcp:3333 tcp:3333"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -19,6 +20,7 @@
     "@react-navigation/native": "^7.1.24",
     "@react-navigation/native-stack": "^7.8.5",
     "@shopify/restyle": "^2.4.5",
+    "axios": "^1.13.2",
     "react": "19.1.1",
     "react-hook-form": "^7.68.0",
     "react-native": "0.82.1",

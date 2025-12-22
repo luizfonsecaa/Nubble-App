@@ -5,22 +5,24 @@ import {
   ListRenderItemInfo,
   ViewStyle,
   StyleProp,
+  RefreshControl,
 } from 'react-native'
 
-import { Post, postService } from '@domain'
+import { Post, usePostList } from '@domain'
+import { useScrollToTop } from '@react-navigation/native'
 
 import { PostItem, Screen } from '@components'
+import { useAppSafeArea } from '@hooks'
 import { AppTabScreenProps } from '@routes'
 
+import { HomeEmpty } from './components/HomeEmpty'
 import { HomeHeader } from './components/HomeHeader'
 export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
-  const [postList, setPostList] = useState<Post[]>([])
+  const { error, loading, postList, refresh, fetchNextPage } = usePostList()
+  const { top } = useAppSafeArea()
 
-  useEffect(() => {
-    postService.getList().then((posts) => {
-      setPostList(posts)
-    })
-  }, [])
+  const FlatlistRef = React.useRef<FlatList>(null)
+  useScrollToTop(FlatlistRef)
 
   function renderItem({ item }: ListRenderItemInfo<Post>) {
     return <PostItem post={item} />
@@ -29,11 +31,26 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
   return (
     <Screen style={$screen}>
       <FlatList
+        ref={FlatlistRef}
         showsVerticalScrollIndicator={false}
         data={postList}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={<HomeHeader />}
+        onEndReached={fetchNextPage}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={refresh}
+            progressViewOffset={top}
+            tintColor="#000"
+          />
+        }
+        onEndReachedThreshold={0.1}
+        contentContainerStyle={{ flex: postList.length === 0 ? 1 : undefined }}
         renderItem={renderItem}
+        ListEmptyComponent={
+          <HomeEmpty refetch={refresh} error={error} loading={loading} />
+        }
       />
     </Screen>
   )
@@ -43,4 +60,5 @@ const $screen: StyleProp<ViewStyle> = {
   paddingTop: 0,
   paddingBottom: 0,
   paddingHorizontal: 0,
+  flex: 1,
 }
