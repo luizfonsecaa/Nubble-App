@@ -18,7 +18,13 @@ import { AppTabScreenProps } from '@routes'
 import { HomeEmpty } from './components/HomeEmpty'
 import { HomeHeader } from './components/HomeHeader'
 export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
-  const { error, loading, postList, refresh, fetchNextPage } = usePostList()
+  const {
+    list: postList,
+    error,
+    loading,
+    refresh,
+    fetchNextPage,
+  } = usePostList()
   const { top } = useAppSafeArea()
 
   const FlatlistRef = React.useRef<FlatList>(null)
@@ -34,7 +40,7 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
         ref={FlatlistRef}
         showsVerticalScrollIndicator={false}
         data={postList}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={<HomeHeader />}
         onEndReached={fetchNextPage}
         refreshControl={

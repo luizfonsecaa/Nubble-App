@@ -7,6 +7,7 @@ import {
   SuccessScreen,
   ForgotPasswordScreen,
 } from '@screens'
+
 export type RootStackParamList = {
   LoginScreen: undefined
   SignUpScreen: undefined

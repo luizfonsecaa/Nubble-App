@@ -8,7 +8,10 @@ import { RootStackParamList } from './AuthStack'
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList
+      extends RootStackParamList,
+        AppStackParamList,
+        AppTabBottomTabParamList {}
   }
 }
 
