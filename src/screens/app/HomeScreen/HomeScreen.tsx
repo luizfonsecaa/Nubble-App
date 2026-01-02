@@ -52,6 +52,7 @@ export function HomeScreen({ navigation }: AppTabScreenProps<'HomeScreen'>) {
           />
         }
         onEndReachedThreshold={0.1}
+        // eslint-disable-next-line react-native/no-inline-styles
         contentContainerStyle={{ flex: postList.length === 0 ? 1 : undefined }}
         renderItem={renderItem}
         ListEmptyComponent={

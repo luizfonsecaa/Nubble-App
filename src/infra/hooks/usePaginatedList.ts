@@ -23,6 +23,7 @@ export function usePaginatedList<Data>(
         setHasNextPage(false)
       }
     } catch (er) {
+      console.error('Error fetching initial data:', er)
       setError(true)
     } finally {
       setLoading(false)
@@ -43,6 +44,7 @@ export function usePaginatedList<Data>(
         setHasNextPage(false)
       }
     } catch (er) {
+      console.error('Error fetching next page:', er)
       setError(true)
     } finally {
       setLoading(false)

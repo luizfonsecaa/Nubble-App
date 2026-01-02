@@ -21,6 +21,7 @@ export function useMutation<TVariables, TData>(
         options.onSuccess(data)
       }
     } catch (mutateError) {
+      console.error('Mutation error:', mutateError)
       if (options?.onError) {
         options.onError(options?.errorMessage || '')
       }
