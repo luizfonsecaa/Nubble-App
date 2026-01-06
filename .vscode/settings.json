@@ -3,7 +3,15 @@
         "source.fixAll.eslint": "explicit"
     },
     "cSpell.words": [
+        "acesso",
+        "atual",
         "Comentários",
-        "Publicação"
+        "contendo",
+        "estado",
+        "fornece",
+        "métodos",
+        "objeto",
+        "Publicação",
+        "serviço"
     ]
 }
