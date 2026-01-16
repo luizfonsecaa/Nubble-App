@@ -8,4 +8,8 @@ export * from './PostComment/useCases/usePostCommentList'
 export * from './PostComment/useCases/usePostCommentCreate'
 export * from './PostComment/useCases/usePostCommentRemove'
 
+export * from './User/userType'
+export * from './User/userService'
+export * from './User/useCases/useUserGetById'
+
 export * from './Auth/hooks/useUser'

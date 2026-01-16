@@ -10,20 +10,19 @@ interface Props {
   postComment: PostComment
   userId: number
   postAuthorId: number
-  onRemoveComment: () => void
+  postId: number
 }
 
 export function PostCommentItem({
   postComment,
-  onRemoveComment,
   userId,
   postAuthorId,
+  postId,
 }: Props) {
   const { showToast } = useToastService()
 
-  const { mutate } = usePostCommentRemove({
+  const { mutate } = usePostCommentRemove(postId, {
     onSuccess: () => {
-      onRemoveComment()
       showToast({
         message: 'Comentário removido com sucesso',
         position: 'bottom',

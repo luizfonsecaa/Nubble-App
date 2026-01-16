@@ -1,67 +1,42 @@
 import { useEffect, useState } from 'react'
 
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { Page } from '@types'
 
+export interface usePaginatedListResult<TData> {
+  list: TData[]
+  isError: boolean | null
+  isLoading: boolean
+  hasNextPage: boolean
+  refresh: () => void
+  fetchNextPage: () => void
+}
+
 export function usePaginatedList<Data>(
+  queryKey: readonly unknown[],
   getList: (page: number) => Promise<Page<Data>>
-) {
-  const [list, setList] = useState<Data[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<boolean | null>(null)
-  const [page, setPage] = useState(1)
-  const [hasNextPage, setHasNextPage] = useState(true)
-
-  async function fetchInitialData() {
-    try {
-      setError(null)
-      setLoading(true)
-      const { data, meta } = await getList(1)
-      setList(data)
-      if (meta.hasNextPage) {
-        setPage(2)
-      } else {
-        setHasNextPage(false)
+): usePaginatedListResult<Data> {
+  const query = useInfiniteQuery({
+    queryKey,
+    queryFn: ({ pageParam }) => getList(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.meta.hasNextPage) {
+        return lastPage.meta.currentPage + 1
       }
-    } catch (er) {
-      console.error('Error fetching initial data:', er)
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
-  }
+      return undefined
+    },
+    staleTime: 1000 * 60 * 5, // 5 minuto
+  })
 
-  async function fetchNextPage() {
-    if (loading || !hasNextPage) {
-      return
-    }
-    try {
-      setLoading(true)
-      const { data, meta } = await getList(page)
-      setList((prev) => [...prev, ...data])
-      if (meta.hasNextPage) {
-        setPage((prev) => prev + 1)
-      } else {
-        setHasNextPage(false)
-      }
-    } catch (er) {
-      console.error('Error fetching next page:', er)
-      setError(true)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchInitialData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const list = query.data?.pages.flatMap((page) => page.data) || []
 
   return {
     list,
-    error,
-    loading,
-    hasNextPage,
-    refresh: fetchInitialData,
-    fetchNextPage,
+    isError: query.isError,
+    isLoading: query.isLoading,
+    refresh: query.refetch,
+    fetchNextPage: query.fetchNextPage,
+    hasNextPage: !!query.hasNextPage,
   }
 }
