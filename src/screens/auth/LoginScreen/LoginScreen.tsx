@@ -1,7 +1,9 @@
 import React from 'react'
 import { Pressable } from 'react-native'
 
+import { useAuthSignIn } from '@domain'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useToastService } from '@services'
 import { useForm } from 'react-hook-form'
 
 import {
@@ -16,6 +18,16 @@ import { AuthScreenProps } from '@routes'
 import { loginSchema, LoginSchema } from './LoginSchema'
 
 export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
+  const { showToast } = useToastService()
+  const { isLoading, signIn } = useAuthSignIn({
+    onError: (_) => {
+      showToast({
+        message: 'Email ou senha inválidos.\nTente novamente.',
+        type: 'error',
+        position: 'bottom',
+      })
+    },
+  })
   const { control, formState, handleSubmit } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -30,7 +42,7 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
   }
 
   function submitForm(formData: LoginSchema) {
-    console.log('Submitting form:', formData)
+    signIn(formData)
   }
 
   return (
@@ -64,10 +76,11 @@ export function LoginScreen({ navigation }: AuthScreenProps<'LoginScreen'>) {
         </Text>
       </Pressable>
       <Button
+        loading={isLoading}
         mt="s48"
         title="Entrar"
         onPress={handleSubmit(submitForm)}
-        disable={!formState.isValid}
+        disabled={!formState.isValid}
       />
       <Button
         mt="s12"

@@ -5,28 +5,28 @@ import { Text } from '../Text/Text'
 
 import { buttonPresets } from './ButtonPresets'
 
-
 export type ButtonPreset = 'primary' | 'outline'
 
 interface ButtonProps extends TouchableOpacityBoxProps {
   title: string
   loading?: boolean
   preset?: ButtonPreset
-  disable?: boolean
+  disabled?: boolean
 }
 export function Button({
   title,
   loading,
   preset = 'primary',
-  disable,
+  disabled,
   ...touchableOpacityBoxProps
 }: ButtonProps) {
-  const buttonPreset = buttonPresets[preset][disable ? 'disabled' : 'default']
+  console.log('disabled', disabled)
+  const buttonPreset = buttonPresets[preset][disabled ? 'disabled' : 'default']
 
   return (
     <TouchableOpacityBox
       paddingHorizontal="s20"
-      disabled={disable || loading}
+      disabled={disabled || loading}
       height={50}
       alignItems="center"
       justifyContent="center"

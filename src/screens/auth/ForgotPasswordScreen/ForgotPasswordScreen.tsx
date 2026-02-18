@@ -1,17 +1,29 @@
+import { useAuthRequestNewPassword } from '@domain'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useToastService } from '@services'
 import { useForm } from 'react-hook-form'
 
 import { Text, Screen, FormTextInput, Button } from '@components'
 import { useResetNavigationSuccess } from '@hooks'
+import { RootStackParamList } from '@routes'
 
 import {
   ForgotPasswordSchema,
   forgotPasswordSchema,
 } from './ForgotPasswordSchema'
 
+const resetParam: RootStackParamList['SuccessScreen'] = {
+  title: `Enviamos as instruções ${'\n'}para seu e-mail`,
+  description: 'Clique no link enviado no seu e-mail para recuperar sua senha',
+  icon: {
+    name: 'messageRound',
+    color: 'primary',
+  },
+}
+
 export function ForgotPasswordScreen() {
   const { reset } = useResetNavigationSuccess()
-
+  const { showToast } = useToastService()
   const { control, handleSubmit, formState } = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
     mode: 'onChange',
@@ -19,18 +31,13 @@ export function ForgotPasswordScreen() {
       email: '',
     },
   })
+  const { requestNewPassword, isLoading } = useAuthRequestNewPassword({
+    onSuccess: () => reset(resetParam),
+    onError: (message) => showToast({ message, type: 'error' }),
+  })
 
-  function submitForm(data: ForgotPasswordSchema) {
-    console.log('Submitting form:', data)
-    reset({
-      title: `Enviamos as\ninstruções para seu\ne-mail`,
-      description:
-        'Clique no link enviado no seu e-mail para recuperar sua senha',
-      icon: {
-        name: 'messageRound',
-        color: 'primary',
-      },
-    })
+  function submitForm({ email }: ForgotPasswordSchema) {
+    requestNewPassword(email)
   }
 
   return (
@@ -50,7 +57,8 @@ export function ForgotPasswordScreen() {
       />
 
       <Button
-        disable={!formState.isValid}
+        loading={isLoading}
+        disabled={!formState.isValid}
         title="Recuperar minha senha"
         onPress={handleSubmit(submitForm)}
       />
