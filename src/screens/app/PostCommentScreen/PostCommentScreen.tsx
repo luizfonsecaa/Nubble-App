@@ -1,7 +1,8 @@
 import React from 'react'
 import { FlatList, ListRenderItemInfo } from 'react-native'
 
-import { PostComment, usePostCommentList, useUser } from '@domain'
+import { PostComment, usePostCommentList } from '@domain'
+import { useAuthCredentials } from '@services'
 
 import { Box, Screen } from '@components'
 import { useAppSafeArea } from '@hooks'
@@ -18,7 +19,8 @@ export function PostCommentScreen({
   const { postId, postAuthorId } = route.params
   const { list, fetchNextPage, hasNextPage, refresh } =
     usePostCommentList(postId)
-  const { id: userId } = useUser()
+  const { userId } = useAuthCredentials()
+
   const { bottom } = useAppSafeArea()
 
   function renderItem({ item }: ListRenderItemInfo<PostComment>) {
@@ -26,7 +28,7 @@ export function PostCommentScreen({
       <PostCommentItem
         postComment={item}
         postId={postId}
-        userId={userId}
+        userId={userId as number}
         postAuthorId={postAuthorId}
       />
     )

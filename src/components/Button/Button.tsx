@@ -7,7 +7,7 @@ import { buttonPresets } from './ButtonPresets'
 
 export type ButtonPreset = 'primary' | 'outline'
 
-interface ButtonProps extends TouchableOpacityBoxProps {
+export interface ButtonProps extends TouchableOpacityBoxProps {
   title: string
   loading?: boolean
   preset?: ButtonPreset
@@ -20,7 +20,6 @@ export function Button({
   disabled,
   ...touchableOpacityBoxProps
 }: ButtonProps) {
-  console.log('disabled', disabled)
   const buttonPreset = buttonPresets[preset][disabled ? 'disabled' : 'default']
 
   return (
@@ -35,7 +34,10 @@ export function Button({
       {...touchableOpacityBoxProps}
     >
       {loading ? (
-        <ActivityIndicator color={buttonPreset.content} />
+        <ActivityIndicator
+          testID="loading-indicator"
+          color={buttonPreset.content}
+        />
       ) : (
         <Text preset="paragraphMedium" bold color={buttonPreset.content}>
           {title}

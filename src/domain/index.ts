@@ -7,10 +7,12 @@ export * from './PostComment/postCommentService'
 export * from './PostComment/useCases/usePostCommentList'
 export * from './PostComment/useCases/usePostCommentCreate'
 export * from './PostComment/useCases/usePostCommentRemove'
+export { POST_COMMENT_PATH } from './PostComment/postCommentApi'
 
 export * from './User/userType'
 export * from './User/userService'
 export * from './User/useCases/useUserGetById'
+export * from './User/userAdapter'
 
 export * from './Auth/hooks/useUser'
 export * from './Auth/authTypes'
