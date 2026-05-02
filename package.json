@@ -12,7 +12,8 @@
     "setup-ios": "rm -rf Pods Podfile.lock && cd ios && pod install && cd..",
     "pod-install": "cd ios && pod install && cd ..",
     "prepare": "husky",
-    "art:3333": "adb reverse tcp:3333 tcp:3333"
+    "androidStudio": "open -a \"Android Studio\"",
+    "art:3333": "adb reverse tcp:56878 tcp:56878"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -29,6 +30,7 @@
     "react": "19.2.1",
     "react-hook-form": "^7.68.0",
     "react-native": "0.83.0",
+    "react-native-bootsplash": "^7.3.1",
     "react-native-mmkv": "^4.1.1",
     "react-native-nitro-modules": "^0.33.2",
     "react-native-safe-area-context": "^5.6.2",
