@@ -1,7 +1,10 @@
+import { useEffect } from 'react'
+
 import { ToastProvider } from '@services'
 import { initializeStorage, MMKVStorage } from '@services'
 import { ThemeProvider } from '@shopify/restyle'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import BootSplash from 'react-native-bootsplash'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { Toast } from '@components'
@@ -15,6 +18,17 @@ const queryClient = new QueryClient()
 initializeStorage(MMKVStorage)
 
 function App() {
+  useEffect(() => {
+    const init = async () => {
+      // …do multiple sync or async tasks
+    }
+
+    init().finally(async () => {
+      await BootSplash.hide({ fade: true })
+      console.log('BootSplash has been hidden successfully')
+    })
+  }, [])
+
   return (
     <AuthCredentialsProvider>
       <QueryClientProvider client={queryClient}>
